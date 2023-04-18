@@ -5,8 +5,8 @@ cc_library(
 )
 
 cc_binary(
-    name = "calculator",
-    srcs = ["main.c"],
+    name = "fuzz_calculator",
+    srcs = ["fuzz_calculator.c"],
     deps = [
         ":calculator_lib",
     ],
