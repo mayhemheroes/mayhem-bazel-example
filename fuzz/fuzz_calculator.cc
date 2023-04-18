@@ -1,8 +1,11 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <fuzzer/FuzzedDataProvider.h>
 
-#include "calculator.h"
+extern "C" {
+  #include "main/calculator.h"
+}
 
 // Let's turn it up a notch with some Mayhem! 
 // We'll test:
@@ -42,18 +45,26 @@ void test_factor_game(int x, int y) {
   assert(factor_game(x,y) == 0);
 }
 
-int main(int argc, char *argv[]) {
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+  FuzzedDataProvider fdata(data, size);
   int x, y;
-  
-  if(scanf("%d%d", &x, &y) != 2){
-    printf("Invalid input\n");
-    return 0;
-  }
+  uint8_t flag;
 
-  test_add_commutes(x,y);
-  test_add_subtract(x,y);
-  test_multiply_commutes(x,y);
-  test_cancel_divisor(x);
-  test_factor_game(x,y);
-  return 1;
+  x = fdata.ConsumeIntegral<int>();
+  y = fdata.ConsumeIntegral<int>();
+  flag = fdata.ConsumeIntegralInRange<uint8_t>(0, 4);
+
+  switch(flag) {
+    case'0':
+      test_add_commutes(x,y);
+    case'1':
+      test_add_subtract(x,y);
+    case'2':
+      test_multiply_commutes(x,y);
+    case'3':
+      test_cancel_divisor(x);
+    case'4':
+      test_factor_game(x,y);
+  }
+  return 0;
 }
