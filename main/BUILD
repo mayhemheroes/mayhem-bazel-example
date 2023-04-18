@@ -1,5 +1,5 @@
 cc_library(
-    name = "calculator-lib",
+    name = "calculator_lib",
     srcs = ["calculator.c"],
     hdrs = ["calculator.h"],
 )
@@ -8,6 +8,6 @@ cc_binary(
     name = "calculator",
     srcs = ["main.c"],
     deps = [
-        ":calculator-lib",
+        ":calculator_lib",
     ],
 )
