@@ -3,6 +3,8 @@ project: calculator
 # Target name (should be unique within the project)
 target: fuzztest-calculator
 
+image: ghcr.io/xansec/calculator-fuzz
+
 # Turns on extra test case processing (completing a run will take longer)
 advanced_triage: false
 
