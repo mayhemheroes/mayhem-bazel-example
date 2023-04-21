@@ -6,7 +6,7 @@ RUN apt update -y && apt install -y clang
 WORKDIR /
 ADD . .
 
-RUN bazel build --config=libfuzzer //fuzz:fuzz_calculator_run
+RUN bazel build --config=libfuzzer //fuzz:fuzztest_calculator
 
 FROM ubuntu
-COPY --from=builder /bazel-bin/fuzz/fuzz_calculator_bin /fuzz_calculator
+COPY --from=builder /bazel-bin/fuzz/fuzztest_calculator /fuzztest_calculator
