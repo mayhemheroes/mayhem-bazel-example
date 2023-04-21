@@ -1,0 +1,14 @@
+# Start with the bazel base image
+FROM gcr.io/bazel-public/bazel:latest AS builder
+
+# Build in a build dir
+WORKDIR /build
+# Add our source code
+ADD . .
+
+# TO-DO: Add the appropriate build commands!
+
+# TO-DO: Copy the bazel binary over to the final stage. 
+FROM ubuntu
+
+
