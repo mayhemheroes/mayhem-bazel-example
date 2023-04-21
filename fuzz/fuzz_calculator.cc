@@ -55,15 +55,15 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
   flag = fdata.ConsumeIntegralInRange<uint8_t>(0, 4);
 
   switch(flag) {
-    case'0':
+    case 0:
       test_add_commutes(x,y);
-    case'1':
+    case 1:
       test_add_subtract(x,y);
-    case'2':
+    case 2:
       test_multiply_commutes(x,y);
-    case'3':
+    case 3:
       test_cancel_divisor(x);
-    case'4':
+    case 4:
       test_factor_game(x,y);
   }
   return 0;
