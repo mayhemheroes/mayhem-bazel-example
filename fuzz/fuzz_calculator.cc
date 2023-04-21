@@ -50,8 +50,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
   int x, y;
   uint8_t flag;
 
-  x = fdata.ConsumeIntegral<int>();
-  y = fdata.ConsumeIntegral<int>();
+  x = fdata.ConsumeIntegralInRange<int>(-0x3fffffff, 0x3fffffff);
+  y = fdata.ConsumeIntegralInRange<int>(-0x3fffffff, 0x3fffffff);
   flag = fdata.ConsumeIntegralInRange<uint8_t>(0, 4);
 
   switch(flag) {
