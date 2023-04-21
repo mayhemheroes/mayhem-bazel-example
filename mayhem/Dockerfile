@@ -9,4 +9,4 @@ ADD . .
 RUN bazel build --config=asan-libfuzzer //fuzz:fuzz_calculator_run
 
 FROM ubuntu
-COPY --from=builder /bazel-bin/fuzz/fuzz_calculator_run /fuzz_calculator
+COPY --from=builder /bazel-bin/fuzz/fuzz_calculator_bin /fuzz_calculator
