@@ -32,17 +32,24 @@ build:fuzztest-common --copt=-D_LIBCPP_ENABLE_ASSERTIONS=1
 #
 # Use with: --config=fuzztest
 
-build:fuzztest --config=fuzztest-common
+#build:fuzztest --config=fuzztest-common
 
 # Link statically.
-build:fuzztest --dynamic_mode=off
+#build:fuzztest --dynamic_mode=off
 
 # We rely on the following flag instead of the compiler provided
 # __has_feature(address_sanitizer) to know that we have an ASAN build even in
 # the uninstrumented runtime.
-build:fuzztest --copt=-DADDRESS_SANITIZER
+#build:fuzztest --copt=-DADDRESS_SANITIZER
 
 # We apply coverage tracking instrumentation to everything but the
 # FuzzTest framework itself (including GoogleTest and GoogleMock).
-build:fuzztest --per_file_copt=+//,-fuzztest/.*,-googletest/.*,-googlemock/.*@-fsanitize-coverage=inline-8bit-counters,-fsanitize-coverage=trace-cmp
+#build:fuzztest --per_file_copt=+//,-fuzztest/.*,-googletest/.*,-googlemock/.*@-fsanitize-coverage=inline-8bit-counters,-fsanitize-coverage=trace-cmp
 
+### libFuzzer compatibility mode.
+#
+# Use with: --config=libfuzzer
+build:libfuzzer --config=fuzztest-common
+build:libfuzzer --copt=-DFUZZTEST_COMPATIBILITY_MODE
+build:libfuzzer --copt=-fsanitize=fuzzer-no-link
+build:libfuzzer --linkopt=/usr/lib/clang/15.0.7/lib/linux/libclang_rt.fuzzer_no_main-x86_64.a
