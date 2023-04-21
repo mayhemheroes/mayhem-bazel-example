@@ -57,14 +57,19 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
   switch(flag) {
     case 0:
       test_add_commutes(x,y);
+      break;
     case 1:
       test_add_subtract(x,y);
+      break;
     case 2:
       test_multiply_commutes(x,y);
+      break;
     case 3:
       test_cancel_divisor(x);
+      break;
     case 4:
       test_factor_game(x,y);
+      break;
   }
   return 0;
 }
