@@ -1,13 +1,9 @@
-cc_library(
-    name = "calculator_lib",
-    srcs = ["calculator.c"],
-    hdrs = ["calculator.h"],
-)
+load("@rules_fuzzing//fuzzing:cc_defs.bzl", "cc_fuzz_test")
 
-cc_binary(
+cc_fuzz_test(
     name = "fuzz_calculator",
-    srcs = ["fuzz_calculator.c"],
+    srcs = ["fuzz_calculator.cc"],
     deps = [
-        ":calculator_lib",
+        "//main:calculator_lib",
     ],
 )

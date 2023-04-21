@@ -1,4 +1,7 @@
 FROM gcr.io/bazel-public/bazel:latest AS builder
+USER root
+
+RUN apt update -y && apt install -y clang
 
 WORKDIR /
 ADD . .
