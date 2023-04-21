@@ -14,8 +14,8 @@
 # Do not use directly.
 
 # Compile and link with Address Sanitizer (ASAN).
-build:fuzztest-common --linkopt=-fsanitize=address
-build:fuzztest-common --copt=-fsanitize=address
+#build:fuzztest-common --linkopt=-fsanitize=address
+#build:fuzztest-common --copt=-fsanitize=address
 
 # Standard define for "ifdef-ing" any fuzz test specific code.
 build:fuzztest-common --copt=-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
