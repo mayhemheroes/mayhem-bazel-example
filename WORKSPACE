@@ -45,10 +45,10 @@ load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 rules_pkg_dependencies()
 
 http_archive(
-  name = "rules_mayhem",
-  strip_prefix = "rules_mayhem-rules_mayhem-0.4",
-  urls = ["https://github.com/xansec/rules_mayhem/archive/rules_mayhem-0.4.tar.gz"],
-  sha256 = "5b643bb3a8628982d13f24abb011c56d26f3b8c170d6ebaef0633889dc9d5931",
+    name = "rules_mayhem",
+    strip_prefix = "rules_mayhem-rules_mayhem-0.5",
+    urls = ["https://github.com/ForAllSecure/rules_mayhem/archive/rules_mayhem-0.5.tar.gz"],
+    sha256 = "c3c6f022fc7a7d7f1f7a23475742e626c5274fe3a75f1ef2ebac7455805c5712",
 )
 
 load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem")
