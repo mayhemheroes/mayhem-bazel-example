@@ -67,7 +67,7 @@ container_push(
     format = "Docker",
     testonly = True,
     image = ":fuzz_calculator_image.tar",
-    registry = "demo.forallsecure.com:5000",
+    registry = "$(MAYHEM_URL)",
     repository = "mayhem-bazel-example/calculator",
     tag = "latest",
 )
