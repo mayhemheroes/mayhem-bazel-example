@@ -6,7 +6,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # To use the latest version of FuzzTest, update this regularly to the latest
 # commit in the main branch: https://github.com/google/fuzztest/commits/main
-FUZZTEST_COMMIT = "4335d7204ef3a8bee2bccc706f1831c59a25537d"
+FUZZTEST_COMMIT = "62cf00c7341eb05d128d0a3cbce79ac31dbda032"
 
 http_archive(
     name = "com_google_fuzztest",
