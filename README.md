@@ -1,5 +1,11 @@
 # End to end Bazel + Mayhem example.
 
+NOTE: To use `rules_fuzzing`, you must have Python 3.9. You can use `pyenv` to switch:
+```
+pyenv install 3.9.0
+pyenv global 3.9.0
+```
+
 ## To build calculator target
 
 ```

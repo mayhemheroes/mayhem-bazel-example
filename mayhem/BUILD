@@ -1,75 +1,38 @@
-load("@io_bazel_rules_docker//container:image.bzl", "container_image")
-load("@io_bazel_rules_docker//container:push.bzl", "container_push")
-load("@io_bazel_rules_docker//docker/package_managers:download_pkgs.bzl", "download_pkgs")
-load("@io_bazel_rules_docker//docker/package_managers:install_pkgs.bzl", "install_pkgs")
-load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem")
 
-download_pkgs(
-    name = "libfuzzer_pkgs",
-    image_tar = "@ubuntu//image",
-    packages = [
-        "clang",
-        "apt-transport-https",
-        "curl",
-        "gnupg",
-    ],
-)
-
-install_pkgs(
-    name = "libfuzzer_pkgs_image",
-    image_tar = "@ubuntu//image",
-    installables_tar = ":libfuzzer_pkgs.tar",
-    installation_cleanup_commands = "rm -rf /var/lib/apt/lists/*",
-    output_image_name = "libfuzzer_pkgs_image",
-)
-
-container_image(
-    name = "fuzz_calculator_image",
+pkg_tar(
+    name = "fuzz_calculator_tar",
+    srcs = ["//fuzz:fuzz_calculator_bin"],
+    mode = "0755",
     testonly = True,
-    base = ":libfuzzer_pkgs_image",
-    entrypoint = ["/fuzz_calculator_bin"],
-    files = ["//fuzz:fuzz_calculator_bin"],
-    #tars = ["//:local_root"],
-    workdir = "/",
 )
 
-# The following actions were an attempt to build the target within the container rather than locally. I couldn't figure out how to get pkg_tar to actually collect directories, however.
-# One hack would be to git clone this repository.
-#container_run_and_commit(
-#    name = "build_libfuzzer_target",
-#    commands = [
-#        #Download bazel repository
-#        "curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg",
-#        "mv bazel-archive-keyring.gpg /usr/share/keyrings",
-#        "echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8' | tee /etc/apt/sources.list.d/bazel.list",
-#        #Install bazel
-#        "apt update -y && apt install -y bazel",
-#        # Build libfuzzer target installation
-#        "bazel build --config=asan-libfuzzer //fuzz:fuzz_calculator_run",
-#        # Move bin to top level
-#        "cp /bazel-bin/fuzz/fuzz_calculator_bin /fuzz_calculator",
-#    ],
-#    image = ":fuzz_calculator_image.tar",
-#)
+oci_image(
+  name = "fuzz_calculator_image",
+  base = "@ubuntu",
+  entrypoint = ["/fuzz_calculator_bin"],
+  tars = [":fuzz_calculator_tar"],
+  testonly = True,
+  user = "root",
+  workdir = "/",
+)
 
-#container_image(
-#    name = "fuzz_calculator_package_image",
-#    testonly = True,
-#    base = "@ubuntu2004//image",
-#    entrypoint = ["/fuzz_calculator_bin"],
-#    files = ["//build_libfuzzer_target:"],
-#    workdir = "/",
-#)
+oci_tarball(
+    name = "fuzz_calculator_tarball",
+    image = ":fuzz_calculator_image",
+    repo_tags = ["mayhem-bazel-example/calculator:latest"],
+    testonly = True,
+)
 
-container_push(
+oci_push(
     name = "push_fuzz_calculator_image",
-    format = "Docker",
+    image = ":fuzz_calculator_image",
+    remote_tags = ["latest"],
+    #repository = "$(MAYHEM_URL):5000/mayhem-bazel-example/calculator",
+    repository = "ghcr.io/ForAllSecure/mayhem-bazel-example/calculator",
     testonly = True,
-    image = ":fuzz_calculator_image.tar",
-    registry = "$(MAYHEM_URL)",
-    repository = "mayhem-bazel-example/calculator",
-    tag = "latest",
 )
 
 mayhem(
@@ -81,5 +44,6 @@ mayhem(
     duration = "90",
     sanitizer = "true",
     libfuzzer = "false",
-    image = "$MAYHEM_DOCKER_REGISTRY/mayhem-bazel-example/calculator:latest",
+    #image = "$MAYHEM_DOCKER_REGISTRY/mayhem-bazel-example/calculator:latest",
+    image = "ghcr.io/ForAllSecure/mayhem-bazel-example/calculator:latest",
 )
