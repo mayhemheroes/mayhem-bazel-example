@@ -7,10 +7,14 @@ build --action_env=CXX=clang++
 build --cxxopt=-std=c++20
 
 # Use the builtin crc32 for fast integer hashing.
-build --copt=-mcrc32
+build:fuzztest --copt=-mcrc32
 
 # Show everything when running tests.
 test --test_output=streamed
+
+# Define the --config=libfuzzer configuration.
+build:libfuzzer --@rules_fuzzing//fuzzing:cc_engine=@rules_fuzzing//fuzzing/engines:libfuzzer
+build:libfuzzer --@rules_fuzzing//fuzzing:cc_engine_instrumentation=libfuzzer
 
 # To create this file, please run:
 #

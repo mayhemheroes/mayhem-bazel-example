@@ -50,3 +50,26 @@ http_archive(
         "https://github.com/bazelbuild/bazel-skylib/releases/download/1.2.1/bazel-skylib-1.2.1.tar.gz",
     ],
 )
+
+################################################################################
+# rules_fuzzing 
+################################################################################
+
+http_archive(
+    name = "rules_fuzzing",
+    sha256 = "ff52ef4845ab00e95d29c02a9e32e9eff4e0a4c9c8a6bcf8407a2f19eb3f9190",
+    strip_prefix = "rules_fuzzing-0.4.1",
+    urls = ["https://github.com/bazelbuild/rules_fuzzing/releases/download/v0.4.1/rules_fuzzing-0.4.1.zip"],
+)
+
+load("@rules_fuzzing//fuzzing:repositories.bzl", "rules_fuzzing_dependencies")
+
+rules_fuzzing_dependencies()
+
+load("@rules_fuzzing//fuzzing:init.bzl", "rules_fuzzing_init")
+
+rules_fuzzing_init()
+
+load("@fuzzing_py_deps//:requirements.bzl", "install_deps")
+
+install_deps()
