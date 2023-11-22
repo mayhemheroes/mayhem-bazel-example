@@ -5,5 +5,5 @@ NOTE: `rules_fuzzing` only works currently with Python 3.9. You can use pyenv to
 
 ```
 pyenv install 3.9.0
-pyenv local 3.9.0
+pyenv global 3.9.0
 ```
