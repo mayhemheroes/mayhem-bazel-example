@@ -1,0 +1,75 @@
+name: Mayhem
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      mayhem_url:
+        description: 'Mayhem URL'
+        required: true
+        default: 'app.mayhem.security'
+
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  MAYHEM_URL: ${{ inputs.mayhem_url }}
+
+jobs:
+  build:
+    name: '${{ matrix.os }} shared=${{ matrix.shared }} ${{ matrix.build_type }}'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        shared: [false]
+        build_type: [Release]
+        include:
+          - os: ubuntu-latest
+            triplet: x64-linux
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5.5.1
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Prep Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Get dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -yq \
+            curl
+            
+      - name: Download Mayhem
+        run: |
+          curl --fail -L https://$MAYHEM_URL/cli/Linux/install.sh | sh
+          mayhem login --url $MAYHEM_URL --token $MAYHEM_TOKEN
+        env:
+          MAYHEM_URL: ${{ env.MAYHEM_URL }}
+          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
+
+      - name: Run Bazel commands
+        run: |
+          bazel run --define=MAYHEM_URL=$MAYHEM_URL //mayhem:push_fuzz_calculator_image
+          bazel build --define=MAYHEM_URL=$MAYHEM_URL //mayhem:mayhem_fuzz_calculator
+        env:
+          MAYHEM_URL: ${{ env.MAYHEM_URL }}
+          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
+        
+
