@@ -1,10 +1,10 @@
-project: calculator
+project: mayhem-bazel-example
 
 # Target name (should be unique within the project)
 target: fuzz-calculator
 
 # Base image to run the binary in.
-image: ghcr.io/<YOUR USERNAME>/calculator
+image: ghcr.io/<YOUR_ORG>/mayhem-bazel-example
 
 # Turns on extra test case processing (completing a run will take longer)
 advanced_triage: false

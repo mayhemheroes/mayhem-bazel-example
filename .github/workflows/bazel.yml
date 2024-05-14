@@ -63,6 +63,9 @@ jobs:
           curl --fail -L https://${{ env.MAYHEM_URL }}/cli/Linux/install.sh | sh
           mayhem login --url https://${{ env.MAYHEM_URL }} --token ${{ secrets.MAYHEM_TOKEN }}
           popd
+        env:
+          MAYHEM_URL: https://${{ env.MAYHEM_URL }}
+          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
       - name: Run Bazel commands
         run: |

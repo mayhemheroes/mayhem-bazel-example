@@ -13,9 +13,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common && 
     update-alternatives --set python3 /usr/bin/python3.9 && \
     update-alternatives --set python /usr/bin/python3.9
 
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.9 && \
-    pip3.9 install --upgrade pip setuptools wheel
-
 RUN LATEST_URL=$(curl -s https://api.github.com/repos/bazelbuild/bazelisk/releases/latest | jq -r '.assets[] | select(.name | test("bazelisk-linux-amd64")) | .browser_download_url') && \
     curl -Lo /usr/local/bin/bazelisk ${LATEST_URL} && \
     chmod +x /usr/local/bin/bazelisk && \
