@@ -22,7 +22,7 @@ oci_image(
 oci_tarball(
     name = "fuzz_calculator_tarball",
     image = ":fuzz_calculator_image",
-    repo_tags = ["mayhem-bazel-example/calculator:latest"],
+    repo_tags = ["mayhem-bazel-example:latest"],
     testonly = True,
 )
 
@@ -30,8 +30,8 @@ oci_push(
     name = "push_fuzz_calculator_image",
     image = ":fuzz_calculator_image",
     remote_tags = ["latest"],
-    #repository = "$(MAYHEM_URL):5000/mayhem-bazel-example/calculator",
-    repository = "ghcr.io/ForAllSecure/mayhem-bazel-example/calculator",
+    #repository = "$(MAYHEM_URL):5000/mayhem-bazel-example",
+    repository = "ghcr.io/forallsecure/mayhem-bazel-example",
     testonly = True,
 )
 
@@ -44,6 +44,6 @@ mayhem(
     duration = "90",
     sanitizer = "true",
     libfuzzer = "false",
-    #image = "$MAYHEM_DOCKER_REGISTRY/mayhem-bazel-example/calculator:latest",
-    image = "ghcr.io/ForAllSecure/mayhem-bazel-example/calculator:latest",
+    #image = "$MAYHEM_DOCKER_REGISTRY/mayhem-bazel-example:latest",
+    image = "ghcr.io/forallsecure/mayhem-bazel-example:latest",
 )

@@ -1,3 +1,6 @@
+# Enable bzlmod
+common --enable_bzlmod
+
 # Force the use of Clang for C++ builds.
 build --action_env=CC=clang
 build --action_env=CXX=clang++
