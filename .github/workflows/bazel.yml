@@ -7,13 +7,13 @@ on:
       mayhem_url:
         description: 'Mayhem URL'
         required: true
-        default: 'app.mayhem.security'
+        default: 'https://app.mayhem.security'
 
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  MAYHEM_URL: ${{ github.event.inputs.mayhem_url || 'app.mayhem.security' }}
+  MAYHEM_URL: ${{ github.event.inputs.mayhem_url || 'https://app.mayhem.security' }}
   USE_BAZEL_VERSION: ${{ 'last_green' || '' }}
 
 jobs:
@@ -61,11 +61,11 @@ jobs:
         run: |
           echo "MAYHEM_URL: ${{ env.MAYHEM_URL }}"
           pushd /tmp
-          curl --fail -L https://${{ env.MAYHEM_URL }}/cli/Linux/install.sh | sh
-          mayhem login --url https://${{ env.MAYHEM_URL }} --token ${{ secrets.MAYHEM_TOKEN }}
+          curl --fail -L ${{ env.MAYHEM_URL }}/cli/Linux/install.sh | sh
+          mayhem login --url ${{ env.MAYHEM_URL }} --token ${{ secrets.MAYHEM_TOKEN }}
           popd
         env:
-          MAYHEM_URL: "https://${{ env.MAYHEM_URL }}"
+          MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
       - name: Run Bazel commands
