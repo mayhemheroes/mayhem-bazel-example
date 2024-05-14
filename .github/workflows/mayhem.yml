@@ -1,4 +1,4 @@
-name: Mayhem
+name: Mayhem (Docker-based)
 on:
   push:
   pull_request:

@@ -1,4 +1,4 @@
-name: Mayhem
+name: Mayhem (Bazel-based)
 on:
   push:
   pull_request:
@@ -14,6 +14,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   MAYHEM_URL: ${{ inputs.mayhem_url }}
+  USE_BAZEL_VERSION: ${{'last_green' || '' }}
 
 jobs:
   build:
@@ -58,18 +59,12 @@ jobs:
             
       - name: Download Mayhem
         run: |
-          curl --fail -L https://$MAYHEM_URL/cli/Linux/install.sh | sh
-          mayhem login --url $MAYHEM_URL --token $MAYHEM_TOKEN
-        env:
-          MAYHEM_URL: ${{ env.MAYHEM_URL }}
-          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
+          curl --fail -L https://${{ env.MAYHEM_URL }}/cli/Linux/install.sh | sh
+          mayhem login --url ${{ env.MAYHEM_URL }} --token ${{ secrets.MAYHEM_TOKEN }}
 
       - name: Run Bazel commands
         run: |
-          bazel run --define=MAYHEM_URL=$MAYHEM_URL //mayhem:push_fuzz_calculator_image
-          bazel build --define=MAYHEM_URL=$MAYHEM_URL //mayhem:mayhem_fuzz_calculator
-        env:
-          MAYHEM_URL: ${{ env.MAYHEM_URL }}
-          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
+          bazel run --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:push_fuzz_calculator_image
+          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:mayhem_fuzz_calculator
         
 
