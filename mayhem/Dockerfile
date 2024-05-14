@@ -7,7 +7,7 @@ RUN apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y curl git unzi
 RUN DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update -y && \
-    DEBIAN_FRONTEND=noninteractive apt install -y python3.9 python3.9-venv python3.9-dev python3-pip && \
+    DEBIAN_FRONTEND=noninteractive apt install -y python3.9 python3.9-venv python3.9-dev && \
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1 && \
     update-alternatives --set python3 /usr/bin/python3.9 && \
