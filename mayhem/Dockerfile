@@ -7,9 +7,15 @@ RUN apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y curl git unzi
 RUN DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update -y && \
-    DEBIAN_FRONTEND=noninteractive apt install -y python3.9
+    DEBIAN_FRONTEND=noninteractive apt install -y python3.9 python3.9-venv python3.9-dev python3-pip && \
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1 && \
+    update-alternatives --set python3 /usr/bin/python3.9 && \
+    update-alternatives --set python /usr/bin/python3.9
 
-    # Fetch and install the latest Bazelisk binary
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.9 && \
+    pip3.9 install --upgrade pip setuptools wheel
+
 RUN LATEST_URL=$(curl -s https://api.github.com/repos/bazelbuild/bazelisk/releases/latest | jq -r '.assets[] | select(.name | test("bazelisk-linux-amd64")) | .browser_download_url') && \
     curl -Lo /usr/local/bin/bazelisk ${LATEST_URL} && \
     chmod +x /usr/local/bin/bazelisk && \
@@ -22,6 +28,9 @@ WORKDIR /workspace
 ADD . .
 
 RUN mkdir out
+
+# Make extra sure we are using Python 3.9
+ENV PYTHON_BIN_PATH=/usr/bin/python3.9
 
 #Build libFuzzer target
 RUN bazel build --config=asan-libfuzzer //fuzz:fuzz_calculator_run

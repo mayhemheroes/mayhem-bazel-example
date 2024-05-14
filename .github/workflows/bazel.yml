@@ -13,8 +13,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  MAYHEM_URL: ${{ inputs.mayhem_url }}
-  USE_BAZEL_VERSION: ${{'last_green' || '' }}
+  MAYHEM_URL: ${{ inputs.mayhem_url || 'app.mayhem.security' }}
+  USE_BAZEL_VERSION: ${{ 'last_green' || '' }}
 
 jobs:
   build:
