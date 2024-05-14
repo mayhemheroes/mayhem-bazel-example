@@ -9,6 +9,12 @@ RUN LATEST_URL=$(curl -s https://api.github.com/repos/bazelbuild/bazelisk/releas
     chmod +x /usr/local/bin/bazelisk && \
     ln -s /usr/local/bin/bazelisk /usr/local/bin/bazel
 
+# Get Python 3.9 - required for Bazel
+RUN apt install -y software-properties-common && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt update && \
+    apt install -y python3.9
+
 RUN useradd -m -d /workspace -s /bin/bash runner
 USER runner
 
