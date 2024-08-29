@@ -14,6 +14,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   MAYHEM_URL: ${{ github.event.inputs.mayhem_url || 'https://app.mayhem.security' }}
+  MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
 jobs:
   build:
