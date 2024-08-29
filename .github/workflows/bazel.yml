@@ -11,10 +11,7 @@ on:
 
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
   MAYHEM_URL: ${{ github.event.inputs.mayhem_url || 'https://app.mayhem.security' }}
-  USE_BAZEL_VERSION: ${{ 'last_green' || '' }}
 
 jobs:
   build:
@@ -34,23 +31,20 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3.1.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5.5.1
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
       - name: Prep Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
+
+      - name: Install Bazel
+        uses: bazel-contrib/setup-bazel@0.8.5
+        with:
+          # Avoid downloading Bazel every time.
+          bazelisk-cache: true
+          # Store build cache per workflow.
+          disk-cache: ${{ github.workflow }}
+          # Share repository cache between workflows.
+          repository-cache: true
 
       - name: Run Bazel for Mayhem with Docker image
         run: |
