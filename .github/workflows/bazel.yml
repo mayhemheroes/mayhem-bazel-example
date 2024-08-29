@@ -74,10 +74,11 @@ jobs:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
+      # .bazelrc appears to be ignored?
       - name: Run Bazel for Mayhem with Docker image
         run: |
-          bazel run --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:push_fuzz_calculator_image
-          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:run_fuzz_calculator
+          bazel run --define=MAYHEM_URL=${{ env.MAYHEM_URL }} --spawn_strategy=standalone //mayhem:push_fuzz_calculator_image
+          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} --spawn_strategy=standalone //mayhem:run_fuzz_calculator
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
@@ -85,7 +86,7 @@ jobs:
 
       - name: Run bazel for Mayhem package
         run: |
-          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:run_calculator
+          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} --spawn_strategy=standalone //mayhem:run_calculator
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
