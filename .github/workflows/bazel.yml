@@ -55,11 +55,8 @@ jobs:
       - name: Install Bazel
         uses: bazel-contrib/setup-bazel@0.8.5
         with:
-          # Avoid downloading Bazel every time.
           bazelisk-cache: true
-          # Store build cache per workflow.
           disk-cache: ${{ github.workflow }}
-          # Share repository cache between workflows.
           repository-cache: true
 
       - name: Log into Mayhem
@@ -78,6 +75,7 @@ jobs:
       - name: Run Bazel for Mayhem with Docker image
         run: |
           bazel run --define=MAYHEM_URL=${{ env.MAYHEM_URL }} --spawn_strategy=standalone //mayhem:push_fuzz_calculator_image
+          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} --spawn_strategy=standalone //mayhem:fuzz_calculator_mayhemfile
           bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} --spawn_strategy=standalone //mayhem:run_fuzz_calculator
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
