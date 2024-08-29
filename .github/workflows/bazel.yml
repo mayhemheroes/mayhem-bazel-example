@@ -52,25 +52,20 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Get dependencies
+      - name: Run Bazel for Mayhem with Docker image
         run: |
-          sudo apt-get update && sudo apt-get install -yq \
-            curl
-            
-      - name: Download Mayhem
-        run: |
-          echo "MAYHEM_URL: ${{ env.MAYHEM_URL }}"
-          pushd /tmp
-          curl --fail -L ${{ env.MAYHEM_URL }}/cli/Linux/install.sh | sh
-          mayhem login --url ${{ env.MAYHEM_URL }} --token ${{ secrets.MAYHEM_TOKEN }}
-          popd
+          bazel run --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:push_fuzz_calculator_image
+          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:run_fuzz_calculator
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
-      - name: Run Bazel commands
+
+      - name: Run bazel for Mayhem package
         run: |
-          bazel run --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:push_fuzz_calculator_image
-          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:mayhem_fuzz_calculator
+          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:run_calculator
+        env:
+          MAYHEM_URL: ${{ env.MAYHEM_URL }}
+          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
         
 

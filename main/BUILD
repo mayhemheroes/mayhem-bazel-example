@@ -11,4 +11,5 @@ cc_binary(
     deps = [
         "//main:calculator_lib",
     ],
+    visibility = ["//visibility:public"],
 )

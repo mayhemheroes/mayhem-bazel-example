@@ -1,6 +1,6 @@
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
-load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem")
+load("@rules_mayhem//mayhem:mayhem.bzl", "mayhemfile", "mayhem_run", "mayhem_package")
 
 pkg_tar(
     name = "fuzz_calculator_tar",
@@ -35,15 +35,33 @@ oci_push(
     testonly = True,
 )
 
-mayhem(
-    name = "mayhem_fuzz_calculator",
-    run = True,
+mayhemfile(
+    name = "fuzz_calculator_mayhemfile",
+    owner = "training",
     project = "mayhem-bazel-example",
     target = "fuzz_calculator",
-    command = "/fuzz_calculator_bin @@",
+    cmd = "/fuzz_calculator_bin @@",
     duration = "90",
     sanitizer = "true",
     libfuzzer = "false",
     #image = "$MAYHEM_DOCKER_REGISTRY/mayhem-bazel-example:latest",
     image = "ghcr.io/forallsecure/mayhem-bazel-example:latest",
+)
+
+mayhem_run(
+    name = "run_fuzz_calculator",
+    target_path = ".",
+    mayhemfile = ":fuzz_calculator_mayhemfile",
+)
+
+mayhem_package(
+    name = "package_calculator",
+    binary = "//main:calculator",
+)
+
+mayhem_run(
+    name = "run_calculator",    
+    image = "ubuntu:latest",
+    target_path = ":package_calculator",
+
 )

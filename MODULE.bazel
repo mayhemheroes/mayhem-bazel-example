@@ -1,5 +1,23 @@
-bazel_dep(name = "googletest", version = "1.14.0.bcr.1")
+bazel_dep(name = "googletest", version = "1.15.2")
 bazel_dep(name = "rules_cc", version = "0.0.9")
-bazel_dep(name = "rules_oci", version = "1.7.5")
-bazel_dep(name = "rules_pkg", version = "0.10.1")
+bazel_dep(name = "rules_pkg", version = "1.0.1")
+# bazel_dep(name = "rules_mayhem", version = "0.7.0")
+# rules_mayhem_dependencies = use_extension("@rules_mayhem//mayhem:extensions.bzl", "rules_mayhem_dependencies")
+# use_repo(rules_mayhem_dependencies, "mayhem_cli_linux")
+# use_repo(rules_mayhem_dependencies, "mayhem_cli_windows")
+# use_repo(rules_mayhem_dependencies, "yq_cli_linux")
+# use_repo(rules_mayhem_dependencies, "yq_cli_windows")
 # to-do: fuzztest dependency - see https://github.com/google/fuzztest/issues/950
+bazel_dep(name = "rules_oci", version = "1.8.0")
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+
+# Declare external images you need to pull, for example: 
+oci.pull(
+    name = "ubuntu",
+    tag = "latest",
+    image = "index.docker.io/library/ubuntu",
+    platforms = ["linux/amd64"],
+)
+
+# For each oci.pull call, repeat the "name" here to expose them as dependencies.
+use_repo(oci, "ubuntu")

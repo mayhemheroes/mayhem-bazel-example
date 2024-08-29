@@ -6,6 +6,9 @@ build --action_env=CC=clang
 build --action_env=CXX=clang++
 build --define=MAYHEM_URL=app.mayhem.security
 
+# Spawn strategy
+build --spawn_strategy=standalone
+
 # Define the --config=asan-libfuzzer configuration.
 build:asan-libfuzzer --@rules_fuzzing//fuzzing:cc_engine=@rules_fuzzing//fuzzing/engines:libfuzzer
 build:asan-libfuzzer --@rules_fuzzing//fuzzing:cc_engine_instrumentation=libfuzzer
