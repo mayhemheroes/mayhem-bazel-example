@@ -1,9 +1,9 @@
 bazel_dep(name = "googletest", version = "1.15.2")
 bazel_dep(name = "rules_cc", version = "0.0.9")
 bazel_dep(name = "rules_pkg", version = "1.0.1")
-bazel_dep(name = "rules_mayhem", version = "0.7.0")
-rules_mayhem_dependencies = use_extension("@rules_mayhem//mayhem:extensions.bzl", "rules_mayhem_dependencies")
-use_repo(rules_mayhem_dependencies, "mayhem_cli_linux", "mayhem_cli_windows", "yq_cli_linux", "yq_cli_windows")
+# bazel_dep(name = "rules_mayhem", version = "0.7.0")
+# rules_mayhem_dependencies = use_extension("@rules_mayhem//mayhem:extensions.bzl", "rules_mayhem_dependencies")
+# use_repo(rules_mayhem_dependencies, "mayhem_cli_linux", "mayhem_cli_windows", "yq_cli_linux", "yq_cli_windows")
 # to-do: fuzztest dependency - see https://github.com/google/fuzztest/issues/950
 bazel_dep(name = "rules_oci", version = "1.8.0")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
