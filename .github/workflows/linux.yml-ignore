@@ -1,4 +1,4 @@
-name: Mayhem (Bazel-based)
+name: Mayhem on Linux (Bazel-based)
 on:
   push:
   pull_request:
@@ -71,7 +71,6 @@ jobs:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
-      # .bazelrc appears to be ignored?
       - name: Run Bazel for Mayhem with Docker image
         run: |
           bazel run --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:push_fuzz_calculator_image

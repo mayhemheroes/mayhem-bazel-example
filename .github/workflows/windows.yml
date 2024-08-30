@@ -1,0 +1,95 @@
+name: Mayhem on Windows (Bazel-based)
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      mayhem_url:
+        description: 'Mayhem URL'
+        required: true
+        default: 'https://app.mayhem.security'
+
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  MAYHEM_URL: ${{ github.event.inputs.mayhem_url || 'https://app.mayhem.security' }}
+  MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
+
+jobs:
+  build:
+    name: '${{ matrix.os }} shared=${{ matrix.shared }} ${{ matrix.build_type }}'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        shared: [false]
+        build_type: [Release]
+        include:
+          - os: windows-latest
+            triplet: x64-windows
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Prep Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      
+      - name: Install Winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Maybe make winget not take forever
+        run: |
+          $settings = @"
+          {
+              "network": {
+                  "downloader": "wininet"
+              }
+          }
+          "@
+          $settings | Out-File -Encoding UTF8 "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
+        shell: pwsh
+          
+
+      - name: Download and Install VS Build Tools
+        run: |
+          $logFile = "$(pwd)\vs_buildtools_install.log"
+      
+          echo "Installing Visual Studio Build Tools for Desktop development with C++..."
+          winget install -e --id Microsoft.VisualStudio.2022.BuildTools --exact --silent --accept-package-agreements --accept-source-agreements --scope machine --log $logFile --override "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+        shell: pwsh
+
+      - name: Install Bazel
+        uses: bazel-contrib/setup-bazel@0.8.5
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+
+      - name: Log into Mayhem
+        run: |
+          echo "Logging into Mayhem"
+          New-Item -ItemType Directory -Force -Path $env:USERPROFILE\.config\mayhem
+          Set-Content -Path $env:USERPROFILE\.config\mayhem\mayhem -Value "[DEFAULT]"
+          Add-Content -Path $env:USERPROFILE\.config\mayhem\mayhem -Value "version=0"
+          Add-Content -Path $env:USERPROFILE\.config\mayhem\mayhem -Value "url=$env:MAYHEM_URL"
+          Add-Content -Path $env:USERPROFILE\.config\mayhem\mayhem -Value "token=$env:MAYHEM_TOKEN"
+        shell: pwsh
+        env:
+          MAYHEM_URL: ${{ env.MAYHEM_URL }}
+          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
+
+      - name: Run bazel for Mayhem package
+        run: |
+          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:run_calculator
+        env:
+          MAYHEM_URL: ${{ env.MAYHEM_URL }}
+          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
+        
+
