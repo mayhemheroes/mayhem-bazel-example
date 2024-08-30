@@ -99,18 +99,6 @@ jobs:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
-      - name: Try it again, with runneradmin explicit
-        run: |
-          mkdir "C:\Users\runneradmin\.config\mayhem"
-          echo [DEFAULT] > "C:\Users\runneradmin\.config\mayhem\mayhem"
-          echo version=0 >> "C:\Users\runneradmin\.config\mayhem\mayhem"
-          echo url=%MAYHEM_URL% >> "C:\Users\runneradmin\.config\mayhem\mayhem"
-          echo token=%MAYHEM_TOKEN% >> "C:\Users\runneradmin\.config\mayhem\mayhem"
-        shell: cmd
-        env:
-          MAYHEM_URL: ${{ env.MAYHEM_URL }}
-          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
-
       - name: Run bazel for Mayhem package
         run: |
           bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:run_calculator
