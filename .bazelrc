@@ -1,6 +1,10 @@
 # Enable bzlmod
 common --enable_bzlmod
 
+# Windows stuff
+startup --windows_enable_symlinks
+build --enable_runfiles
+
 # Set default Mayhem URL
 build --define=MAYHEM_URL=app.mayhem.security
 
