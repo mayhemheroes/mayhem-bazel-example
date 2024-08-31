@@ -73,6 +73,6 @@ jobs:
 
       # - name: Run bazel for Mayhem + libFuzzer
       #   run: |
-      #     bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_package_fuzz_calculator
+      #     bazel build --config=libfuzzer --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_package_fuzz_calculator
         
 
