@@ -38,46 +38,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-      
-      # - name: Install Winget
-      #   uses: Cyberboss/install-winget@v1
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Maybe make winget not take forever
-      #   run: |
-      #     $settings = @"
-      #     {
-      #         "network": {
-      #             "downloader": "wininet"
-      #         }
-      #     }
-      #     "@
-      #     $settings | Out-File -Encoding UTF8 "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
-      #   shell: pwsh
-          
-      # - name: Restore VS Build Tools Cache
-      #   id: restore-vs-cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools
-      #     key: ${{ runner.os }}-vsbuildtools-${{ hashFiles('**/*') }}
-      
-      # - name: Download and Install VS Build Tools
-      #   if: steps.restore-vs-cache.outputs.cache-hit != 'true'
-      #   run: |
-      #     $logFile = "$(pwd)\vs_buildtools_install.log"
-      
-      #     echo "Installing Visual Studio Build Tools for Desktop development with C++..."
-      #     winget install -e --id Microsoft.VisualStudio.2022.BuildTools --exact --silent --accept-package-agreements --accept-source-agreements --scope machine --log $logFile --override "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
-      #   shell: pwsh
-      
-      # - name: Save VS Build Tools Cache
-      #   if: steps.restore-vs-cache.outputs.cache-hit != 'true'
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools
-      #     key: ${{ runner.os }}-vsbuildtools-${{ hashFiles('**/*') }}
 
       - name: Install Bazel
         uses: bazel-contrib/setup-bazel@0.8.5
@@ -105,5 +65,14 @@ jobs:
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
+
+      # - name: Install LLVM
+      #   run: |
+      #     scripts\install_llvm.bat
+      #   shell: cmd
+
+      # - name: Run bazel for Mayhem + libFuzzer
+      #   run: |
+      #     bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_package_fuzz_calculator
         
 

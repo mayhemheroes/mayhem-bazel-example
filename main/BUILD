@@ -1,8 +1,9 @@
+package(default_visibility = ["//visibility:public"])
+
 cc_library(
     name = "calculator_lib",
     srcs = ["calculator.c"],
     hdrs = ["calculator.h"],
-    visibility = ["//visibility:public"],
 )
 
 cc_binary(
@@ -11,5 +12,4 @@ cc_binary(
     deps = [
         "//main:calculator_lib",
     ],
-    visibility = ["//visibility:public"],
 )
