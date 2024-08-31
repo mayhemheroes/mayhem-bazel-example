@@ -101,7 +101,7 @@ jobs:
 
       - name: Run bazel for Mayhem package
         run: |
-          bazel build --define=MAYHEM_URL=${{ env.MAYHEM_URL }} //mayhem:run_calculator
+          bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_calculator
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
