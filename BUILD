@@ -7,3 +7,12 @@ pkg_tar(
     srcs = glob(["fuzz/**", "main/**", ".bazelrc", "WORKSPACE"]),
     strip_prefix = ".",
 )
+
+platform(
+    name = "x64_windows-clang-cl",
+    constraint_values = [
+        "@platforms//cpu:x86_64",
+        "@platforms//os:windows",
+        "@bazel_tools//tools/cpp:clang-cl",
+    ],
+)
