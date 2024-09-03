@@ -21,7 +21,7 @@ use_repo(oci, "ubuntu")
 
 # Windows + Clang
 register_execution_platforms(
-    ":x64_windows-clang-cl"
+    "//:x64_windows-clang-cl"
 )
 
 register_toolchains(
