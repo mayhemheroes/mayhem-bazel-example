@@ -66,13 +66,13 @@ jobs:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
-      # - name: Install LLVM
-      #   run: |
-      #     scripts\install_llvm.bat
-      #   shell: cmd
+      - name: Install LLVM
+        run: |
+          scripts\install_llvm.bat
+        shell: cmd
 
-      # - name: Run bazel for Mayhem + libFuzzer
-      #   run: |
-      #     bazel build --config=libfuzzer --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_package_fuzz_calculator
+      - name: Run bazel for Mayhem + libFuzzer
+        run: |
+          bazel build --config=libfuzzer --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_package_fuzz_calculator
         
 
