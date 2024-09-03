@@ -59,18 +59,6 @@ jobs:
           disk-cache: ${{ github.workflow }}
           repository-cache: true
 
-      - name: Log into Mayhem
-        run: |
-          echo "Logging into Mayhem"
-          mkdir -p ~/.config/mayhem
-          echo "[DEFAULT]" > ~/.config/mayhem/mayhem
-          echo "version=0" >> ~/.config/mayhem/mayhem
-          echo "url=$MAYHEM_URL" >> ~/.config/mayhem/mayhem
-          echo "token=$MAYHEM_TOKEN" >> ~/.config/mayhem/mayhem
-        env:
-          MAYHEM_URL: ${{ env.MAYHEM_URL }}
-          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
-
       - name: Run Bazel for Mayhem with Docker image
         run: |
           bazel run --config=libfuzzer --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:push_fuzz_calculator_image
