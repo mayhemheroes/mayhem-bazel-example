@@ -65,3 +65,16 @@ mayhem_run(
     target_path = ":package_calculator",
 
 )
+
+mayhem_package(
+    name = "package_fuzz_calculator",
+    binary = "//fuzz:fuzz_calculator_bin",
+    testonly = True, # this is needed to work around testonly restrictions
+)
+
+mayhem_run(
+    name = "run_package_fuzz_calculator",
+    image = "chainguard/glibc-dynamic",
+    target_path = ":package_fuzz_calculator",
+    testonly = True,
+)

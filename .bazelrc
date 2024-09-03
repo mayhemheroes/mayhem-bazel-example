@@ -1,22 +1,30 @@
 # Enable bzlmod
 common --enable_bzlmod
 
-# Force the use of Clang for C++ builds.
-build --action_env=CC=clang
-build --action_env=CXX=clang++
+# Windows stuff
+startup --windows_enable_symlinks
+build --enable_runfiles
+
+# Set default Mayhem URL
 build --define=MAYHEM_URL=app.mayhem.security
 
-# Spawn strategy
+# Spawn strategy (necessary for rules_mayhem)
 build --spawn_strategy=standalone
 
 # Define the --config=asan-libfuzzer configuration.
+build:asan-libfuzzer --action_env=CC=clang
+build:asan-libfuzzer --action_env=CXX=clang++
 build:asan-libfuzzer --@rules_fuzzing//fuzzing:cc_engine=@rules_fuzzing//fuzzing/engines:libfuzzer
 build:asan-libfuzzer --@rules_fuzzing//fuzzing:cc_engine_instrumentation=libfuzzer
 build:asan-libfuzzer --@rules_fuzzing//fuzzing:cc_engine_sanitizer=asan
 
 # Define the --config=libfuzzer configuration.
+build:libfuzzer --action_env=CC=clang
+build:libfuzzer --action_env=CXX=clang++
 build:libfuzzer --@rules_fuzzing//fuzzing:cc_engine=@rules_fuzzing//fuzzing/engines:libfuzzer
 build:libfuzzer --@rules_fuzzing//fuzzing:cc_engine_instrumentation=libfuzzer
 
 # Define the --config=uninstrumented configuration.
+build:uninstrumented --action_env=CC=clang
+build:uninstrumented --action_env=CXX=clang++
 build:uninstrumented --@rules_fuzzing//fuzzing:cc_engine=@rules_fuzzing//fuzzing/engines:replay

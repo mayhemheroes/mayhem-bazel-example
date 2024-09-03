@@ -32,14 +32,17 @@ bazel build //mayhem:fuzz_calculator_image
 
 ## To push docker image
 
-Currently Mayhem repository is set to `app.mayhem.security`. You can change this to your own instance of Mayhem with `bazel build --define=MAYHEM_URL=<blah.mayhem.security> ...` (or editing the `.bazelrc`).
+Commands like `mayhem run` need to be authenticated to the Mayhem server. You can change specify this with the `--action_env` parameter: 
+```
+bazel build --action_env=MAYHEM_URL=<blah.mayhem.security> --action_env=MAYHEM_TOKEN=<token> ...
+``` 
 
 ```
-bazel run //mayhem:push_fuzz_calculator_image
+bazel run --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //mayhem:push_fuzz_calculator_image
 ```
 
 ## To build Mayhemfile (and run Mayhem)
 
 ```
-bazel build //mayhem:mayhem_fuzz_calculator
+bazel build --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //mayhem:mayhem_fuzz_calculator
 ```
