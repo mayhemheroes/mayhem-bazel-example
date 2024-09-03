@@ -51,8 +51,8 @@ install_deps()
 http_archive(
     name = "rules_mayhem",
     strip_prefix = "rules_mayhem",
-    urls = ["https://github.com/ForAllSecure/rules_mayhem/releases/download/0.7.0/rules_mayhem-0.7.0.tar.gz"],
-    sha256 = "2375abd27696bd85568edc15bad2e8d38bbeb3323132f660faf17dccd361f60f",
+    urls = ["https://github.com/ForAllSecure/rules_mayhem/releases/download/0.7.1/rules_mayhem-0.7.1.tar.gz"],
+    sha256 = "b4c5bedf54dd5f3a301b2b40cd5bde4e4de2978eda2545bb37ae4ad59e3bf9b5",
 )
 
 load("@rules_mayhem//mayhem:mayhem.bzl", "mayhemfile", "mayhem_package", "mayhem_run")
