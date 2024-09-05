@@ -49,7 +49,7 @@ mayhemfile(
 )
 
 mayhem_run(
-    name = "run_fuzz_calculator",
+    name = "run_docker_fuzz_calculator",
     target_path = ".",
     mayhemfile = ":fuzz_calculator_mayhemfile",
 )
@@ -60,7 +60,7 @@ mayhem_package(
 )
 
 mayhem_run(
-    name = "run_calculator",    
+    name = "run_package_calculator",
     image = "ubuntu:latest",
     target_path = ":package_calculator",
 
@@ -76,5 +76,18 @@ mayhem_run(
     name = "run_package_fuzz_calculator",
     image = "chainguard/glibc-dynamic",
     target_path = ":package_fuzz_calculator",
+    testonly = True,
+)
+
+mayhem_package(
+    name = "package_test_calculator",
+    binary = "//test:test_calculator",
+    testonly = True, # Needed to package test binaries
+)
+
+mayhem_run(
+    name = "run_package_test_calculator",
+    image = "ubuntu:latest",
+    target_path = ":package_test_calculator",
     testonly = True,
 )

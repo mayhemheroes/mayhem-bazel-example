@@ -1,5 +1,7 @@
 load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem_run", "mayhem_package")
 
+package(default_visibility = ["//visibility:public"])
+
 cc_test(
   name = "gtest_calculator",
   size = "small",
@@ -19,17 +21,4 @@ cc_test(
   ],
   data = [":testsuite/1"],
   args = ["$(location :testsuite/1)"],
-)
-
-mayhem_package(
-    name = "package_test_calculator",
-    binary = ":test_calculator",
-    testonly = True, # Needed to package test binaries
-)
-
-mayhem_run(
-    name = "run_test_calculator",
-    image = "ubuntu:latest",
-    target_path = ":package_test_calculator",
-    testonly = True,
 )
