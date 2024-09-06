@@ -1,7 +1,7 @@
 FROM ubuntu as builder
 
 # Install required packages
-RUN apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y curl git unzip clang jq
+RUN apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y curl git unzipjq
 
 # Get Python 3.9 - required for Bazel
 RUN DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common && \
@@ -29,14 +29,9 @@ RUN mkdir out
 # Make extra sure we are using Python 3.9
 ENV PYTHON_BIN_PATH=/usr/bin/python3.9
 
-#Build libFuzzer target
-RUN bazel build --config=asan-libfuzzer //fuzz:fuzz_calculator_run
-RUN cp ./bazel-bin/fuzz/fuzz_calculator_bin ./out/fuzz_calculator_libfuzzer
-
 #Build uninst target
-RUN bazel clean
-RUN bazel build --config=uninstrumented //fuzz:fuzz_calculator_run
-RUN cp ./bazel-bin/fuzz/fuzz_calculator_bin ./out/fuzz_calculator_uninstrumented
+RUN bazel build //main:calculator
+RUN cp ./bazel-bin/main/calculator_bin ./out/calculator
 
 FROM ubuntu
 COPY --from=builder /workspace/out/* /

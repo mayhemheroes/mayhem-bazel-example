@@ -11,10 +11,7 @@ advanced_triage: false
 
 # List of commands used to test the target
 cmds:
-  - cmd: /fuzz_calculator_libfuzzer
-    libfuzzer: true
-    sanitizer: true
-  - cmd: /fuzz_calculator_uninstrumented @@
+  - cmd: /calculator @@
     libfuzzer: false
     sanitizer: false
 
