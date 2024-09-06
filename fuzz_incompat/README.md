@@ -1,0 +1,1 @@
+`rules_fuzzing` does not work with Bazel 5.3.0. Do not use the targets in this directory. Instead, use the targets in the `main`, `mayhem`, and `test` directories.

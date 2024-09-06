@@ -1,6 +1,3 @@
-# Enable bzlmod
-common --enable_bzlmod
-
 # Windows stuff
 startup --windows_enable_symlinks
 build --enable_runfiles
