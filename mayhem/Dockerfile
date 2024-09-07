@@ -31,7 +31,7 @@ ENV PYTHON_BIN_PATH=/usr/bin/python3.9
 
 #Build uninst target
 RUN bazel build //main:calculator
-RUN cp ./bazel-bin/main/calculator_bin ./out/calculator
+RUN cp ./bazel-bin/main/calculator ./out/calculator
 
 FROM ubuntu
 COPY --from=builder /workspace/out/* /
