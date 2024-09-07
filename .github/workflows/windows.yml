@@ -46,19 +46,9 @@ jobs:
           disk-cache: ${{ github.workflow }}
           repository-cache: true
 
-      - name: Find things
-        run: |
-          where cl.exe
-          where link.exe
-          where lib.exe
-          where VCVARSALL.BAT
-          where ml64.exe
-
-      - name: Set location for VS build tools
-        run: set BAZEL_VC="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC"
-
       - name: Run bazel for Mayhem package
         run: |
+          set BAZEL_VC="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC"
           bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_package_calculator
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
