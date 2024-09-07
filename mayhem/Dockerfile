@@ -1,7 +1,7 @@
 FROM ubuntu as builder
 
 # Install required packages
-RUN apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y curl git unzipjq
+RUN apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y curl git unzip jq
 
 # Get Python 3.9 - required for Bazel
 RUN DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common && \
