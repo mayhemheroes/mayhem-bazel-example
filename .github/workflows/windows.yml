@@ -26,7 +26,7 @@ jobs:
         shared: [false]
         build_type: [Release]
         include:
-          - os: windows-latest
+          - os: windows-2019
             triplet: x64-windows
 
     steps:
@@ -48,7 +48,7 @@ jobs:
 
       - name: Run bazel for Mayhem package
         run: |
-          set BAZEL_VC="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC"
+          set BAZEL_VC="C:\Program Files\Microsoft Visual Studio\2019\Enterprise\VC"
           bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_package_calculator
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
