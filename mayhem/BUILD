@@ -1,6 +1,6 @@
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
-load("@rules_mayhem//mayhem:mayhem.bzl", "mayhemfile", "mayhem_run", "mayhem_package")
+# load("@rules_pkg//:pkg.bzl", "pkg_tar")
+# load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
+load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem_run", "mayhem_package")
 
 # pkg_tar(
 #     name = "fuzz_calculator_tar",
@@ -35,59 +35,65 @@ load("@rules_mayhem//mayhem:mayhem.bzl", "mayhemfile", "mayhem_run", "mayhem_pac
 #     testonly = True,
 # )
 
-# mayhemfile(
-#     name = "fuzz_calculator_mayhemfile",
+# mayhem_run(
+#     name = "run_fuzz_calculator_image",
 #     owner = "training",
 #     project = "mayhem-bazel-example",
-#     target = "fuzz_calculator",
-#     cmd = "/fuzz_calculator_bin @@",
+#     target = "fuzz_calculator_image",
+#     cmd = "/fuzz_calculator_bin",
 #     duration = "90",
 #     sanitizer = "true",
 #     libfuzzer = "false",
-#     #image = "$MAYHEM_DOCKER_REGISTRY/mayhem-bazel-example:latest",
 #     image = "ghcr.io/forallsecure/mayhem-bazel-example:latest",
 # )
 
-# mayhem_run(
-#     name = "run_docker_fuzz_calculator",
-#     target_path = ".",
-#     mayhemfile = ":fuzz_calculator_mayhemfile",
-# )
-
 mayhem_package(
-    name = "package_calculator",
+    name = "calculator_package",
     binary = "//main:calculator",
 )
 
 mayhem_run(
-    name = "run_package_calculator",
+    name = "run_calculator_package",
+    owner = "training",
+    project = "mayhem-bazel-example",
+    target = "calculator_package",
     image = "ubuntu:latest",
-    target_path = ":package_calculator",
+    regression = True,
+    wait = True,
+    target_path = ":calculator_package",
 
 )
 
 # mayhem_package(
-#     name = "package_fuzz_calculator",
+#     name = "fuzz_calculator_package",
 #     binary = "//fuzz:fuzz_calculator_bin",
 #     testonly = True, # this is needed to work around testonly restrictions
 # )
 
 # mayhem_run(
-#     name = "run_package_fuzz_calculator",
+#     name = "run_fuzz_calculator_package",
+#     owner = "training",
+#     project = "mayhem-bazel-example",
+#     target = "fuzz_calculator_package",
 #     image = "chainguard/glibc-dynamic",
-#     target_path = ":package_fuzz_calculator",
+#     target_path = ":fuzz_calculator_package",
 #     testonly = True,
 # )
 
 mayhem_package(
-    name = "package_test_calculator",
+    name = "test_calculator_package",
     binary = "//test:test_calculator",
     testonly = True, # Needed to package test binaries
 )
 
 mayhem_run(
-    name = "run_package_test_calculator",
+    name = "run_test_calculator_package",
+    owner = "training",
+    project = "mayhem-bazel-example",
+    target = "test_calculator_package",
     image = "ubuntu:latest",
-    target_path = ":package_test_calculator",
+    target_path = ":test_calculator_package",
+    wait = True,
+    duration = "30",
     testonly = True,
 )
