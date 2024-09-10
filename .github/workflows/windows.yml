@@ -53,11 +53,6 @@ jobs:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
 
-      - name: Output batch file content
-        if: always()
-        run: type bazel-out\x64_windows-fastbuild\bin\mayhem\run_calculator_package-wait.bat
-        shell: cmd
-
       # - name: Install LLVM
       #   run: |
       #     scripts\install_llvm.bat
