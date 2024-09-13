@@ -58,7 +58,7 @@ mayhem_run(
     project = "mayhem-bazel-example",
     target = "calculator_package",
     image = "ubuntu:latest",
-    duration = "120"
+    duration = "120",
     target_path = ":calculator_package",
 
 )
