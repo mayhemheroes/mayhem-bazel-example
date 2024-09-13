@@ -6,9 +6,6 @@ extern "C" {
   #include "main/calculator.h"
 }
 
-// Dynamic testing with Mayhem: 
-//   "with any given input, what happens? (Implicitly, we expect no crashes)"
-
 void test_add(int x, int y) {
   // assert(add(x, y) == x + y);
   add(x, y);
@@ -24,6 +21,16 @@ void test_multiply(int x, int y) {
   multiply(x, y);
 }
 
+void test_divide(int x, int y) {
+  // assert(divide(x, y) == x / y);
+  divide(x, y);
+}
+
+void test_factor_game(int x, int y) {
+  // assert(factor_game(x, y) == 0);
+  factor_game(x, y);
+}
+
 int main(int argc, char *argv[]) {
   if (argc != 2) {
     printf("Usage: %s <input_file>\n", argv[0]);
@@ -36,24 +43,16 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  int x, y, s;
+  int x, y;
   char buf[64];
   fgets(buf, sizeof(buf), file);
-  sscanf(buf, "%d %d %d", &x, &y ,&s);
+  sscanf(buf, "%d %d", &x, &y);
 
-  switch (s % 3) {
-    case 0:
-      test_add(x, y);
-      break;
-    case 1:
-      test_subtract(x, y);
-      break;
-    case 2:
-      test_multiply(x, y);
-      break;
-    default:
-      return 0;
-  }
+  test_add(x, y);
+  test_subtract(x, y);
+  test_multiply(x, y);
+  test_divide(x, y);
+  test_factor_game(x, y);
 
   fclose(file);
   return 0;

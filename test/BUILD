@@ -1,5 +1,3 @@
-load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem_run", "mayhem_package")
-
 package(default_visibility = ["//visibility:public"])
 
 cc_test(
@@ -19,6 +17,16 @@ cc_test(
   deps = [
     "//main:calculator_lib",
   ],
-  data = [":testsuite/1"],
-  args = ["$(location :testsuite/1)"],
+  data = [":testsuite"],
+)
+
+cc_test(
+  name = "combined_test_calculator",
+  size = "small",
+  srcs = ["combined_test_calculator.cc"],
+  deps = [
+    "@googletest//:gtest_main",
+    "//main:calculator_lib",
+  ],
+  data = [":testsuite"],
 )
