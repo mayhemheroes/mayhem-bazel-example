@@ -58,8 +58,7 @@ mayhem_run(
     project = "mayhem-bazel-example",
     target = "calculator_package",
     image = "ubuntu:latest",
-    regression = True,
-    wait = True,
+    duration = "120",
     target_path = ":calculator_package",
 
 )
@@ -75,14 +74,14 @@ mayhem_run(
 #     owner = "training",
 #     project = "mayhem-bazel-example",
 #     target = "fuzz_calculator_package",
-#     image = "chainguard/glibc-dynamic",
+#     image = "kubler/glibc",
 #     target_path = ":fuzz_calculator_package",
 #     testonly = True,
 # )
 
 mayhem_package(
     name = "test_calculator_package",
-    binary = "//test:test_calculator",
+    binary = "//test:combined_test_calculator",
     testonly = True, # Needed to package test binaries
 )
 
@@ -91,9 +90,9 @@ mayhem_run(
     owner = "training",
     project = "mayhem-bazel-example",
     target = "test_calculator_package",
-    image = "ubuntu:latest",
+    image = "kubler/glibc",
     target_path = ":test_calculator_package",
     wait = True,
-    duration = "30",
+    regression = True,
     testonly = True,
 )
