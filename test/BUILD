@@ -46,7 +46,10 @@ mayhem_download(
     name = "download_combined_test_calculator_results",
     owner = "training",
     project = "mayhem-bazel-example",
-    target = "test_calculator_package",
+    target = select({
+        "@platforms//os:windows": "test_calculator_package_exe",
+        "//conditions:default": "test_calculator_package",
+    }),
     output_dir = "combined_test_calculator-pkg",
     testonly = True,
 )
