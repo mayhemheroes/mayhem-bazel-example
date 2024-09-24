@@ -49,13 +49,12 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(
     name = "rules_mayhem",
     strip_prefix = "rules_mayhem",
-    urls = ["https://github.com/ForAllSecure/rules_mayhem/releases/download/0.7.3/rules_mayhem-0.7.3.tar.gz"],
-    sha256 = "911a861da6e053e3e4c32505a4b4bbaa7ca3404611570be8b16cd2dd6d13e039",
+    urls = ["https://github.com/ForAllSecure/rules_mayhem/releases/download/0.7.4/rules_mayhem-0.7.4.tar.gz"],
+    sha256 = "1f326329d41ab12cb9b22dd32ee5e91c77c5c2c802d149de43fcf2de9e49f73f",
 )
 
-load("@rules_mayhem//mayhem:repositories.bzl", "rules_mayhem_repositories", "rules_mayhem_archives")
+load("@rules_mayhem//mayhem:repositories.bzl", "rules_mayhem_repositories")
 rules_mayhem_repositories()
-rules_mayhem_archives()
 
 # load("@rules_oci//oci:pull.bzl", "oci_pull")
 

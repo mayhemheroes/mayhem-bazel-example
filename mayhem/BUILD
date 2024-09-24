@@ -2,6 +2,8 @@ load("@rules_pkg//:pkg.bzl", "pkg_tar")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem_run", "mayhem_package")
 
+package(default_visibility = ["//visibility:public"])
+
 pkg_tar(
     name = "fuzz_calculator_tar",
     srcs = ["//fuzz:fuzz_calculator_bin"],

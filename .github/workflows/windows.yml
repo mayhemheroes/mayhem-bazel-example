@@ -63,3 +63,11 @@ jobs:
       #     bazel clean --expunge
       #     set USE_CLANG_CL=1
       #     bazel build --compiler=clang-cl --config=libfuzzer --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_package_fuzz_calculator
+
+      - name: Run coverage manually
+        run: |
+          bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //test:download_combined_test_calculator_results
+          for /f %%i in ('dir /b .\bazel-bin\test\combined_test_calculator-pkg\testsuite') do bazel coverage --combined_report=lcov //test:combined_test_calculator --test_arg=test/combined_test_calculator-pkg/testsuite/%%i
+        env:
+          MAYHEM_URL: ${{ env.MAYHEM_URL }}
+          MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
