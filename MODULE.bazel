@@ -1,10 +1,10 @@
 bazel_dep(name = "googletest", version = "1.15.2")
 bazel_dep(name = "rules_pkg", version = "1.0.1")
 bazel_dep(name = "rules_fuzzing", version = "0.5.2")
-# bazel_dep(name = "rules_mayhem", version = "0.7.3")
+bazel_dep(name = "rules_mayhem", version = "0.7.5")
 
-# rules_mayhem_extension = use_extension("@rules_mayhem//mayhem:extensions.bzl", "rules_mayhem_extension")
-# use_repo(rules_mayhem_extension, "mayhem_cli_linux", "mayhem_cli_windows", "yq_cli_linux", "yq_cli_osx", "yq_cli_windows")
+rules_mayhem_extension = use_extension("@rules_mayhem//mayhem:extensions.bzl", "rules_mayhem_extension")
+use_repo(rules_mayhem_extension, "mayhem_cli_linux", "mayhem_cli_windows", "yq_cli_linux", "yq_cli_osx", "yq_cli_windows")
 
 # to-do: fuzztest - see https://github.com/google/fuzztest/issues/950
 bazel_dep(name = "rules_oci", version = "1.8.0")
