@@ -2,6 +2,8 @@
 # load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem_run", "mayhem_package")
 
+package(default_visibility = ["//visibility:public"])
+
 # pkg_tar(
 #     name = "fuzz_calculator_tar",
 #     srcs = ["//fuzz:fuzz_calculator_bin"],
@@ -56,7 +58,10 @@ mayhem_run(
     name = "run_calculator_package",
     owner = "training",
     project = "mayhem-bazel-example",
-    target = "calculator_package",
+    target = select({
+        "@platforms//os:windows": "calculator_package_exe",
+        "//conditions:default": "calculator_package",
+    }),
     image = "ubuntu:latest",
     duration = "120",
     target_path = ":calculator_package",
@@ -73,7 +78,10 @@ mayhem_run(
 #     name = "run_fuzz_calculator_package",
 #     owner = "training",
 #     project = "mayhem-bazel-example",
-#     target = "fuzz_calculator_package",
+#     target = select({
+#         "@platforms//os:windows": "fuzz_calculator_package_exe",
+#         "//conditions:default": "fuzz_calculator_package",
+#     }),
 #     image = "kubler/glibc",
 #     target_path = ":fuzz_calculator_package",
 #     testonly = True,
@@ -89,10 +97,14 @@ mayhem_run(
     name = "run_test_calculator_package",
     owner = "training",
     project = "mayhem-bazel-example",
-    target = "test_calculator_package",
+    target = select({
+        "@platforms//os:windows": "test_calculator_package_exe",
+        "//conditions:default": "test_calculator_package",
+    }),
     image = "kubler/glibc",
     target_path = ":test_calculator_package",
     wait = True,
     regression = True,
+    duration = "60",
     testonly = True,
 )

@@ -3,7 +3,7 @@ startup --windows_enable_symlinks
 build --enable_runfiles
 
 # Set default Mayhem URL
-build --define=MAYHEM_URL=app.mayhem.security
+# build --action_env=MAYHEM_URL=<URL>
 
 # Spawn strategy (necessary for rules_mayhem)
 build --spawn_strategy=standalone
