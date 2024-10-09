@@ -43,13 +43,12 @@ rules_pkg_dependencies()
 http_archive(
     name = "rules_mayhem",
     strip_prefix = "rules_mayhem",
-    urls = ["https://github.com/ForAllSecure/rules_mayhem/releases/download/0.7.3/rules_mayhem-0.7.3.tar.gz"],
-    sha256 = "911a861da6e053e3e4c32505a4b4bbaa7ca3404611570be8b16cd2dd6d13e039",
+    urls = ["https://github.com/ForAllSecure/rules_mayhem/releases/download/0.7.5/rules_mayhem-0.7.5.tar.gz"],
+    sha256 = "756ca3dd49ba5f73dc6f07a3e233d1f8918f0995cc828472051dc719f5fd9b2b",
 )
 
-load("@rules_mayhem//mayhem:repositories.bzl", "rules_mayhem_repositories", "rules_mayhem_archives")
+load("@rules_mayhem//mayhem:repositories.bzl", "rules_mayhem_repositories")
 rules_mayhem_repositories()
-rules_mayhem_archives()
 
 load("@rules_oci//oci:pull.bzl", "oci_pull")
 
