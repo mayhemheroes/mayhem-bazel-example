@@ -12,11 +12,6 @@ cc_test(
   ],
 )
 
-filegroup(
-        name = 'test_suite',
-        srcs = glob([':testsuite/*'])
-)
-
 cc_test(
   name = "test_calculator",
   size = "small",
