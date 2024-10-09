@@ -105,5 +105,6 @@ mayhem_run(
     target_path = ":test_calculator_package",
     wait = True,
     regression = True,
+    duration = "60",
     testonly = True,
 )
