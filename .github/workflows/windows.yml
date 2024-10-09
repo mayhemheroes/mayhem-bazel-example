@@ -49,7 +49,7 @@ jobs:
       - name: Run bazel for Mayhem package
         run: |
           set BAZEL_VC="C:\Program Files\Microsoft Visual Studio\2019\Enterprise\VC"
-          bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_calculator_package
+          bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //mayhem:run_test_calculator_package
         env:
           MAYHEM_URL: ${{ env.MAYHEM_URL }}
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
