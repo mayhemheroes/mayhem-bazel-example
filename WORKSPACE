@@ -47,9 +47,8 @@ http_archive(
     sha256 = "90e81a3a80d1eecbfacd976f2389a2b1191c440223c8f5f23ab5075a4bafe180",
 )
 
-load("@rules_mayhem//mayhem:repositories.bzl", "rules_mayhem_repositories" "rules_mayhem_archives")
+load("@rules_mayhem//mayhem:repositories.bzl", "rules_mayhem_repositories")
 rules_mayhem_repositories()
-rules_mayhem_archives()
 
 load("@rules_oci//oci:pull.bzl", "oci_pull")
 
