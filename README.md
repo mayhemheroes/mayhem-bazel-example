@@ -69,7 +69,7 @@ bazel build --config=libfuzzer --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=
 
 # Regression Testing
 
-## To run Mayhem on regression tests only, and wait for the run to finish
+## To run Mayhem on regression tests only, wait for the run to finish, and output a SARIF report
 
 ```
 bazel build --config=libfuzzer --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //mayhem:run_test_calculator_package
