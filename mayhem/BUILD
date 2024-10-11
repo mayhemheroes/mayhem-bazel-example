@@ -104,6 +104,8 @@ mayhem_run(
     image = "kubler/glibc",
     target_path = ":test_calculator_package",
     wait = True,
+    # fail_on_defects = True,
+    sarif = "test_calculator_package.sarif",
     regression = True,
     duration = "60",
     testonly = True,
