@@ -28,7 +28,8 @@
     "https://bcr.bazel.build/modules/bazel_skylib/1.4.2/MODULE.bazel": "3bd40978e7a1fac911d5989e6b09d8f64921865a45822d8b09e815eaa726a651",
     "https://bcr.bazel.build/modules/bazel_skylib/1.5.0/MODULE.bazel": "32880f5e2945ce6a03d1fbd588e9198c0a959bb42297b2cfaf1685b7bc32e138",
     "https://bcr.bazel.build/modules/bazel_skylib/1.6.1/MODULE.bazel": "8fdee2dbaace6c252131c00e1de4b165dc65af02ea278476187765e1a617b917",
-    "https://bcr.bazel.build/modules/bazel_skylib/1.6.1/source.json": "082ed5f9837901fada8c68c2f3ddc958bb22b6d654f71dd73f3df30d45d4b749",
+    "https://bcr.bazel.build/modules/bazel_skylib/1.7.1/MODULE.bazel": "3120d80c5861aa616222ec015332e5f8d3171e062e3e804a2a0253e1be26e59b",
+    "https://bcr.bazel.build/modules/bazel_skylib/1.7.1/source.json": "f121b43eeefc7c29efbd51b83d08631e2347297c95aac9764a701f2a6a2bb953",
     "https://bcr.bazel.build/modules/buildozer/7.1.2/MODULE.bazel": "2e8dd40ede9c454042645fd8d8d0cd1527966aa5c919de86661e62953cd73d84",
     "https://bcr.bazel.build/modules/buildozer/7.1.2/source.json": "c9028a501d2db85793a6996205c8de120944f50a0d570438fcae0457a5f9d1f8",
     "https://bcr.bazel.build/modules/container_structure_test/1.16.0/MODULE.bazel": "5bf2659d7724e232c10435e7ef3d5b3d3bc4bfc7825060e408b4a5e7d165ddf7",
@@ -77,6 +78,8 @@
     "https://bcr.bazel.build/modules/rules_license/0.0.3/MODULE.bazel": "627e9ab0247f7d1e05736b59dbb1b6871373de5ad31c3011880b4133cafd4bd0",
     "https://bcr.bazel.build/modules/rules_license/0.0.7/MODULE.bazel": "088fbeb0b6a419005b89cf93fe62d9517c0a2b8bb56af3244af65ecfe37e7d5d",
     "https://bcr.bazel.build/modules/rules_license/0.0.7/source.json": "355cc5737a0f294e560d52b1b7a6492d4fff2caf0bef1a315df5a298fca2d34a",
+    "https://bcr.bazel.build/modules/rules_mayhem/0.7.6/MODULE.bazel": "915e11106c195392df642148f7c334d76f13a9380f9e23af5e741db726eee79c",
+    "https://bcr.bazel.build/modules/rules_mayhem/0.7.6/source.json": "8248c9e1b76841b6dfb3d71ba7f444346431ac4d1c401cbcb0024a5abeeaa334",
     "https://bcr.bazel.build/modules/rules_oci/1.8.0/MODULE.bazel": "a4d656f6a0e7c7c1a73b9e394e37c8f9bbc237143ce9e19deba7a532fe189552",
     "https://bcr.bazel.build/modules/rules_oci/1.8.0/source.json": "c14770a5dfba2980d8f1ebeaac0bfa4848ffb7febfca84ac2a7fd7e8f4d9e1e3",
     "https://bcr.bazel.build/modules/rules_pkg/0.7.0/MODULE.bazel": "df99f03fc7934a4737122518bb87e667e62d780b610910f0447665a7e2be62dc",
@@ -1764,9 +1767,109 @@
         ]
       }
     },
+    "@@rules_mayhem~//mayhem:extensions.bzl%rules_mayhem_extension": {
+      "general": {
+        "bzlTransitiveDigest": "Ua6pRK+q8a9pYdObF2J5nofGSv4YP/ho4SJj1YNlrHI=",
+        "usagesDigest": "QFl6olkLU07DAaJBMFVzB2fAju++34gCloXlwCyswzs=",
+        "recordedFileInputs": {},
+        "recordedDirentsInputs": {},
+        "envVariables": {
+          "MAYHEM_URL": "https://app.mayhem.security"
+        },
+        "generatedRepoSpecs": {
+          "yq_cli_linux": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64"
+              ],
+              "sha256": "a2c097180dd884a8d50c956ee16a9cec070f30a7947cf4ebf87d5f36213e9ed7",
+              "executable": true
+            }
+          },
+          "bazel_skylib": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_archive",
+            "attributes": {
+              "sha256": "bc283cdfcd526a52c3201279cda4bc298652efa898b10b4db0837dc51652756f",
+              "urls": [
+                "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.7.1/bazel-skylib-1.7.1.tar.gz",
+                "https://github.com/bazelbuild/bazel-skylib/releases/download/1.7.1/bazel-skylib-1.7.1.tar.gz"
+              ]
+            }
+          },
+          "mayhem_cli_windows": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_file",
+            "attributes": {
+              "urls": [
+                "https://app.mayhem.security/cli/Windows/mayhem.exe"
+              ],
+              "executable": true
+            }
+          },
+          "mayhem_cli_linux": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_file",
+            "attributes": {
+              "urls": [
+                "https://app.mayhem.security/cli/Linux/mayhem"
+              ],
+              "executable": true
+            }
+          },
+          "yq_cli_windows": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_windows_amd64.exe"
+              ],
+              "sha256": "d509d51e6db30ebb7c9363b7ca8714224f93a456a421d7a7819ab564b868acc7",
+              "executable": true
+            }
+          },
+          "yq_cli_osx": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_darwin_amd64"
+              ],
+              "sha256": "216ddfa03e7ba0e5aba00b236ec78324b5bfc49b610db254fe92310878baea20",
+              "executable": true
+            }
+          },
+          "platforms": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_archive",
+            "attributes": {
+              "sha256": "218efe8ee736d26a3572663b374a253c012b716d8af0c07e842e82f238a0a7ee",
+              "urls": [
+                "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.10/platforms-0.0.10.tar.gz",
+                "https://github.com/bazelbuild/platforms/releases/download/0.0.10/platforms-0.0.10.tar.gz"
+              ]
+            }
+          }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "rules_mayhem~",
+            "bazel_tools",
+            "bazel_tools"
+          ],
+          [
+            "rules_mayhem~",
+            "rules_mayhem",
+            "rules_mayhem~"
+          ]
+        ]
+      }
+    },
     "@@rules_oci~//oci:extensions.bzl%oci": {
       "general": {
-        "bzlTransitiveDigest": "sKFyFFR5jQy80wktcaj6g0DEbBZMd+YdAjFydvS46cg=",
+        "bzlTransitiveDigest": "NiDJ6XZwYkjNY9U0qvB9ST+Jm75IIuCg32Npau6keqU=",
         "usagesDigest": "97Da5qEYYaT5y5gRe+c7jia9p05a1gqTRyi3tqu8LEA=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
