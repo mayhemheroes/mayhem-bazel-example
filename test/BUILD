@@ -37,6 +37,20 @@ cc_test(
   data = [":testsuite", "//test:download_combined_test_calculator_results"],
 )
 
+cc_test(
+  name = "harness_test_calculator",
+  size = "small",
+  srcs = ["harness_test_calculator.cc"],
+  copts = ["-ftest-coverage", "-fprofile-arcs"],
+  linkopts = ["-lgcov", "--coverage"],
+  deps = [
+    "@googletest//:gtest_main",
+    "//main:calculator_lib",
+    "//harness:harness_utils",
+  ],
+  data = [":testsuite", "//test:download_combined_test_calculator_results"],
+)
+
 mayhem_download(
     name = "download_combined_test_calculator_results",
     owner = "training",
