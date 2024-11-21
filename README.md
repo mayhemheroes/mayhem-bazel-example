@@ -94,7 +94,7 @@ mayhem_download(
 Then, run the following command to download the code coverage:
 
 ```
-bazel build --action_env=MAYHEM_URL=${{ env.MAYHEM_URL }} --action_env=MAYHEM_TOKEN=${{ secrets.MAYHEM_TOKEN }} //test:download_combined_test_calculator_results
+bazel build --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //test:download_combined_test_calculator_results
 ```
 
 The code coverage will be downloaded to `bazel-bin/test/combined_test_calculator-pkg/coverage.tgz`.

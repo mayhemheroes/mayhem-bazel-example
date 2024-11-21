@@ -1774,7 +1774,7 @@
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {
-          "MAYHEM_URL": null
+          "MAYHEM_URL": "https://app.mayhem.security"
         },
         "generatedRepoSpecs": {
           "mayhem_cli_linux": {
