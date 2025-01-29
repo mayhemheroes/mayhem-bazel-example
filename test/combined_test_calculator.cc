@@ -9,19 +9,19 @@ extern "C" {
 }
 
 void test_add(int x, int y) {
-  assert(add(x, y) == x + y);
+  EXPECT_TRUE(add(x, y) == x + y);
 }
 
 void test_subtract(int x, int y) {
-  assert(subtract(x, y) == x - y);
+  EXPECT_TRUE(subtract(x, y) == x - y);
 }
 
 void test_multiply(int x, int y) {
-  assert(multiply(x, y) == x * y);
+  EXPECT_TRUE(multiply(x, y) == x * y);
 }
 
 void test_divide(int x, int y) {
-  assert(divide(x, y) == x / y);
+  EXPECT_TRUE(divide(x, y) == x / y);
 }
 
 void test_factor_game(int x, int y) {

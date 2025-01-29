@@ -65,7 +65,6 @@ mayhem_run(
     image = "ubuntu:latest",
     duration = "120",
     target_path = ":calculator_package",
-
 )
 
 mayhem_package(
