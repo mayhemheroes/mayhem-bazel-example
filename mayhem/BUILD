@@ -136,9 +136,6 @@ mayhem_run(
     }),
     image = "kubler/glibc",
     target_path = ":fuzzing_utils_test_calculator_package",
-    wait = True,
-    # fail_on_defects = True,
-    sarif = "fuzzing_utils_test_calculator_package.sarif",
-    duration = "60",
+    duration = "120",
     testonly = True,
 )
