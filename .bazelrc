@@ -11,6 +11,10 @@ build --enable_runfiles
 # Spawn strategy (necessary for rules_mayhem)
 build --spawn_strategy=standalone
 
+# Force Clang for fuzzing utils
+build:fuzzing_utils --action_env=CC=clang
+build:fuzzing_utils --action_env=CXX=clang++
+
 # Define the --config=asan-libfuzzer configuration.
 build:asan-libfuzzer --action_env=CC=clang
 build:asan-libfuzzer --action_env=CXX=clang++

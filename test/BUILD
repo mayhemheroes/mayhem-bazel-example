@@ -38,15 +38,29 @@ cc_test(
 )
 
 cc_test(
-  name = "harness_test_calculator",
+  name = "harness_utils_test_calculator",
   size = "small",
-  srcs = ["harness_test_calculator.cc"],
+  srcs = ["harness_utils_test_calculator.cc"],
   copts = ["-ftest-coverage", "-fprofile-arcs"],
   linkopts = ["-lgcov", "--coverage"],
   deps = [
     "@googletest//:gtest_main",
     "//main:calculator_lib",
     "//harness:harness_utils",
+  ],
+  data = [":testsuite", "//test:download_combined_test_calculator_results"],
+)
+
+cc_test(
+  name = "fuzzing_utils_test_calculator",
+  size = "small",
+  srcs = ["fuzzing_utils_test_calculator.cc"],
+  copts = ["-ftest-coverage", "-fprofile-arcs"],
+  linkopts = ["-lgcov", "--coverage"],
+  deps = [
+    "@googletest//:gtest_main",
+    "//main:calculator_lib",
+    "//harness:fuzzing_utils",
   ],
   data = [":testsuite", "//test:download_combined_test_calculator_results"],
 )
