@@ -4,6 +4,8 @@ load("@rules_mayhem//mayhem:mayhem.bzl", "mayhem_run", "mayhem_package")
 
 package(default_visibility = ["//visibility:public"])
 
+# Docker example
+
 pkg_tar(
     name = "fuzz_calculator_tar",
     srcs = ["//fuzz:fuzz_calculator_bin"],
@@ -49,6 +51,8 @@ mayhem_run(
     image = "ghcr.io/forallsecure/mayhem-bazel-example:latest",
 )
 
+# Calculator Standalone binary example
+
 mayhem_package(
     name = "calculator_package",
     binary = "//main:calculator",
@@ -66,6 +70,8 @@ mayhem_run(
     duration = "120",
     target_path = ":calculator_package",
 )
+
+# Calculator libFuzzer example
 
 mayhem_package(
     name = "fuzz_calculator_package",
@@ -85,6 +91,8 @@ mayhem_run(
     target_path = ":fuzz_calculator_package",
     testonly = True,
 )
+
+# Calculator gtest integration example
 
 mayhem_package(
     name = "test_calculator_package",
@@ -107,5 +115,27 @@ mayhem_run(
     sarif = "test_calculator_package.sarif",
     regression = True,
     duration = "60",
+    testonly = True,
+)
+
+# Calculator FUZZ_TEST macro example
+
+mayhem_package(
+    name = "fuzzing_utils_test_calculator_package",
+    binary = "//test:fuzzing_utils_test_calculator",
+    testonly = True, # Needed to package test binaries
+)
+
+mayhem_run(
+    name = "run_fuzzing_utils_test_calculator_package",
+    owner = "training",
+    project = "mayhem-bazel-example",
+    target = select({
+        "@platforms//os:windows": "fuzzing_utils_test_calculator_package_exe",
+        "//conditions:default": "fuzzing_utils_test_calculator_package",
+    }),
+    image = "kubler/glibc",
+    target_path = ":fuzzing_utils_test_calculator_package",
+    duration = "120",
     testonly = True,
 )

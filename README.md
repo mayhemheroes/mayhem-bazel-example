@@ -10,19 +10,19 @@ pyenv global 3.9.0
 
 ## To build calculator target
 
-```
+```bash
 bazel build //main:calculator
 ```
 
 ## To package calculator target
 
-```
+```bash
 bazel build //mayhem:package_calculator
 ```
 
 ## To run calculator target
 
-```
+```bash
 bazel build --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //mayhem:run_package_calculator 
 ```
 
@@ -31,7 +31,8 @@ The above works with the test target `//test:test_calculator` as well.
 ### Note on authentication with Mayhem
 
 Commands like `mayhem run` need to be authenticated to the Mayhem server. You can change specify this with the `--action_env` parameter: 
-```
+
+```bash
 bazel build --action_env=MAYHEM_URL=<blah.mayhem.security> --action_env=MAYHEM_TOKEN=<token> ...
 ``` 
 
@@ -39,31 +40,31 @@ bazel build --action_env=MAYHEM_URL=<blah.mayhem.security> --action_env=MAYHEM_T
 
 ## To build libfuzzer target
 
-```
+```bash
 bazel build --config=libfuzzer //fuzz:fuzz_calculator
 ```
 
 ### To run libfuzzer target locally
 
-```
+```bash
 bazel run --config=libfuzzer //fuzz:fuzz_calculator_run
 ```
 
 ## To build docker image with libfuzzer target
 
-```
+```bash
 bazel build --config=libfuzzer //mayhem:fuzz_calculator_image
 ```
 
 ## To push docker image with libfuzzer target
 
-```
+```bash
 bazel run --config=libfuzzer //mayhem:push_fuzz_calculator_image
 ```
 
 ## To run Mayhem against docker image for libfuzzer target
 
-```
+```bash
 bazel build --config=libfuzzer --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //mayhem:run_fuzz_calculator_image
 ```
 
@@ -71,7 +72,7 @@ bazel build --config=libfuzzer --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=
 
 ## To run Mayhem on regression tests only, wait for the run to finish, and output a SARIF report
 
-```
+```bash
 bazel build --config=libfuzzer --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //mayhem:run_test_calculator_package
 ```
 
@@ -93,7 +94,7 @@ mayhem_download(
 
 Then, run the following command to download the code coverage:
 
-```
+```bash
 bazel build --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //test:download_combined_test_calculator_results
 ```
 
@@ -102,4 +103,50 @@ If you'd like to generate coverage manually, you can do this with Bazel, but you
 
 ```bash
 for test in $(ls ./bazel-bin/test/combined_test_calculator-pkg/testsuite); do bazel coverage --combined_report=lcov //test:combined_test_calculator --test_arg=test/combined_test_calculator-pkg/testsuite/$test; done
+```
+
+# Gtest Integration
+
+Under the `test` directory, there are a couple of examples of how to integrate Gtest with Mayhem. 
+
+- `test_calculator` shows basic unit testing without any infrastructure such as Google Test.
+
+- `gtest_calculator` is a simple example of using Gtest, with test fixtures for each function in Calculator.
+
+- `combined_test_calculator` extracts the test fixture behavior into a test function, and conditionally either executes Gtest or the test functions with generated inputs. 
+
+You can run this on Mayhem with:
+
+```bash
+bazel build --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //mayhem:run_test_calculator_package
+```
+
+- `harness_utils_test_calculator` is an example inlining harness functionality via a HARNESS macro. The test functions are designed to take a buffer and size, and the HARNESS macro automatically calls the test function with the generated inputs. 
+
+- `fuzzing_utils_test_calculator` declares a FUZZ_TEST fixture that providers a fuzzed data provider. The FUZZ_TEST fixtures are conditionally called based on the presence of a file on the command line; otherwise, the TEST fixtures run normally.
+
+For example, if you have a test that looks like:
+
+```cpp
+TEST(CalculatorTest, TestAdd) {
+  test_add(1, 2);
+}
+```
+
+This allows you to create a `FUZZ_TEST` fixture that looks like:
+
+```cpp
+FUZZ_TEST(CalculatorTest, FuzzTestAdd) {
+    INIT_FUZZ_TEST;
+    int x = provider.ConsumeIntegral<int>();
+    int y = provider.ConsumeIntegral<int>();
+    test_add(x, y);
+}
+```
+
+
+Run this on Mayhem with:
+
+```bash
+bazel build --config=fuzzing_utils --action_env=MAYHEM_URL=$MAYHEM_URL --action_env=MAYHEM_TOKEN=$MAYHEM_TOKEN //mayhem:run_fuzzing_utils_test_calculator_package
 ```
