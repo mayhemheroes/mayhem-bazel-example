@@ -35,9 +35,9 @@ TEST(CalculatorTest, TestAdd) {
 
 FUZZ_TEST(CalculatorTest, FuzzTestAdd) {
     INIT_FUZZ_TEST;
-    int x = provider.ConsumeIntegral();
-    int y = provider.ConsumeIntegral();
-    EXPECT_EQ(add(x, y), x + y);
+    int x = provider.ConsumeIntegral<int>();
+    int y = provider.ConsumeIntegral<int>();
+    test_add(x, y);
 }
 
 TEST(CalculatorTest, TestSubtract) {
@@ -46,9 +46,9 @@ TEST(CalculatorTest, TestSubtract) {
 
 FUZZ_TEST(CalculatorTest, FuzzTestSubtract) {
     INIT_FUZZ_TEST;
-    int x = provider.ConsumeIntegral();
-    int y = provider.ConsumeIntegral();
-    EXPECT_EQ(subtract(x, y), x - y);
+    int x = provider.ConsumeIntegral<int>();
+    int y = provider.ConsumeIntegral<int>();
+    test_subtract(x, y);
 }
 
 TEST(CalculatorTest, TestMultiply) {
@@ -57,9 +57,9 @@ TEST(CalculatorTest, TestMultiply) {
 
 FUZZ_TEST(CalculatorTest, FuzzTestMultiply) {
     INIT_FUZZ_TEST;
-    int x = provider.ConsumeIntegral();
-    int y = provider.ConsumeIntegral();
-    EXPECT_EQ(multiply(x, y), x * y);
+    int x = provider.ConsumeIntegral<int>();
+    int y = provider.ConsumeIntegral<int>();
+    test_multiply(x, y);
 }
 
 TEST(CalculatorTest, TestDivide) {
@@ -68,12 +68,12 @@ TEST(CalculatorTest, TestDivide) {
 
 FUZZ_TEST(CalculatorTest, FuzzTestDivide) {
     INIT_FUZZ_TEST;
-    int x = provider.ConsumeIntegral();
-    int y = provider.ConsumeIntegral();
+    int x = provider.ConsumeIntegral<int>();
+    int y = provider.ConsumeIntegral<int>();
     if (y == 0) {
         return;
     }
-    EXPECT_EQ(divide(x, y), x / y);
+    test_divide(x, y);
 }
 
 TEST(CalculatorTest, TestFactorGame) {
@@ -82,9 +82,9 @@ TEST(CalculatorTest, TestFactorGame) {
 
 FUZZ_TEST(CalculatorTest, FuzzTestFactorGame) {
     INIT_FUZZ_TEST;
-    int x = provider.ConsumeIntegral();
-    int y = provider.ConsumeIntegral();
-    factor_game(x, y);
+    int x = provider.ConsumeIntegral<int>();
+    int y = provider.ConsumeIntegral<int>();
+    test_factor_game(x, y);
 }
 
 int main(int argc, char **argv) {

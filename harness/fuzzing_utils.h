@@ -1,8 +1,8 @@
 #ifndef FUZZING_UTILS_H
 #define FUZZING_UTILS_H
 
-#include <fstream>
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 #include <fuzzer/FuzzedDataProvider.h>
 
 #ifdef _MSC_VER
